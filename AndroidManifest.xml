@@ -9,6 +9,8 @@
         android:targetSdkVersion="19" />
     <uses-permission 
         android:name="android.permission.READ_PHONE_STATE"/>
+    <use-permission
+        android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"

@@ -6,33 +6,44 @@ import android.support.v4.app.Fragment;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.os.Build;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity implements OnClickListener{
 
 	final static String TAG = "clong.MainActivity"; 
 	TelephonyManager mTelephonyManager;
+	private EditText editStatus;
+	private Button buttonTweet;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
+        /*if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
-        }
+        }*/
         
         mTelephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         mTelephonyManager.listen(new MyPhoneStateListener(), PhoneStateListener.LISTEN_CALL_STATE);
+        
+        editStatus = (EditText) findViewById(R.id.editStatus);
+        buttonTweet = (Button) findViewById(R.id.buttonTweet);
+        
+        buttonTweet.setOnClickListener(this);
     }
 
     
@@ -95,5 +106,12 @@ public class MainActivity extends ActionBarActivity {
             return rootView;
         }
     }
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		String status = editStatus.getText().toString();
+		Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
+	}
 
 }

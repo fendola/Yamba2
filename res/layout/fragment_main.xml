@@ -16,4 +16,25 @@
         android:text="@string/hello_world" 
         android:background="#88000088"/>
 
+    <Button
+        android:id="@+id/buttonTweet"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/button_tweet" />
+    
+    <EditText 
+        android:id="@+id/editStatus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/buttonTweet"
+        android:layout_marginTop="10dp"
+        android:hint="@string/hint_status"
+        android:inputType="textMultiLine"/>
+    
+    
+
 </RelativeLayout>

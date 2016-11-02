@@ -1,12 +1,19 @@
 package com.example.helloandroid;
 
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClientException;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.app.Activity;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
 
@@ -25,6 +33,8 @@ public class MainActivity extends Activity implements OnClickListener{
 	TelephonyManager mTelephonyManager;
 	private EditText editStatus;
 	private Button buttonTweet;
+	private TextView textCount;
+	private int defaultTextColor;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +52,91 @@ public class MainActivity extends Activity implements OnClickListener{
         
         editStatus = (EditText) findViewById(R.id.editStatus);
         buttonTweet = (Button) findViewById(R.id.buttonTweet);
+        textCount = (TextView) findViewById(R.id.textCount);
+        
         
         buttonTweet.setOnClickListener(this);
+        defaultTextColor = textCount.getTextColors().getDefaultColor();
+        editStatus.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				int count = 140 - editStatus.length();
+				textCount.setText(Integer.toString(count));
+				textCount.setTextColor(Color.GREEN);
+				if (count < 10)
+					textCount.setTextColor(Color.RED);
+				else
+					textCount.setTextColor(defaultTextColor);
+			}
+		});
     }
 
-    
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		String status = editStatus.getText().toString();
+		Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
+		new PostTask().execute(status);
+		
+	}
+	
+	private class PostTask extends AsyncTask<String, Void, String>{
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			Log.w(TAG, "doInBackground");
+			YambaClient yambaCloud = new YambaClient("student", "password");
+			try {
+				yambaCloud.postStatus(params[0]);
+				return "Successfully posted";
+			} catch (YambaClientException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "Failed to post status";
+			}
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			Log.w(TAG, "postExecute in PostTask");
+			Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			Log.w(TAG, "preExecute in PostTask");
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}
+		
+	}
+
+
+	
     private class MyPhoneStateListener extends PhoneStateListener {
 
 		@Override
@@ -107,11 +197,5 @@ public class MainActivity extends Activity implements OnClickListener{
         }
     }
 
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		String status = editStatus.getText().toString();
-		Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
-	}
 
 }

@@ -11,10 +11,12 @@
     tools:context="com.example.helloandroid.MainActivity$PlaceholderFragment" >
 
     <TextView
+        android:id="@+id/textCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" 
-        android:background="#88000088"/>
+        android:text="140" 
+        android:layout_alignLeft="@+id/editStatus"
+        android:layout_alignTop="@+id/buttonTweet"/>
 
     <Button
         android:id="@+id/buttonTweet"
@@ -33,7 +35,7 @@
         android:layout_below="@id/buttonTweet"
         android:layout_marginTop="10dp"
         android:hint="@string/hint_status"
-        android:inputType="textMultiLine"/>
+        android:gravity="top"/>
     
     
 

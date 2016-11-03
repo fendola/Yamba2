@@ -1,22 +1,17 @@
 package com.example.helloandroid;
 
-import com.marakana.android.yamba.clientlib.YambaClient;
-import com.marakana.android.yamba.clientlib.YambaClientException;
-
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.app.Activity;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,11 +20,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Build;
 
-public class MainActivity extends Activity implements OnClickListener{
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClientException;
 
-	final static String TAG = "clong.MainActivity"; 
+public class StatusFragment extends android.app.Fragment implements OnClickListener{
+
+	final static String TAG = "clong.StatusFragment"; 
 	TelephonyManager mTelephonyManager;
 	private EditText editStatus;
 	private Button buttonTweet;
@@ -37,22 +34,18 @@ public class MainActivity extends Activity implements OnClickListener{
 	private int defaultTextColor;
 	
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        /*if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }*/
-        
-        mTelephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+    	Log.w(TAG, "onCreateView begin");
+    	
+    	View view = inflater.inflate(R.layout.fragment_status, container, false);
+    	
+    	mTelephonyManager = (TelephonyManager) StatusFragment.this.getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         mTelephonyManager.listen(new MyPhoneStateListener(), PhoneStateListener.LISTEN_CALL_STATE);
         
-        editStatus = (EditText) findViewById(R.id.editStatus);
-        buttonTweet = (Button) findViewById(R.id.buttonTweet);
-        textCount = (TextView) findViewById(R.id.textCount);
+        editStatus = (EditText) view.findViewById(R.id.editStatus);
+        buttonTweet = (Button) view.findViewById(R.id.buttonTweet);
+        textCount = (TextView) view.findViewById(R.id.textCount);
         
         
         buttonTweet.setOnClickListener(this);
@@ -84,13 +77,16 @@ public class MainActivity extends Activity implements OnClickListener{
 					textCount.setTextColor(defaultTextColor);
 			}
 		});
-    }
+        Log.w(TAG, "onCreateView end");
+		// TODO Auto-generated method stub
+		return view;
+	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		String status = editStatus.getText().toString();
-		Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
+		Toast.makeText(StatusFragment.this.getActivity(), status, Toast.LENGTH_SHORT).show();
 		new PostTask().execute(status);
 		
 	}
@@ -117,7 +113,7 @@ public class MainActivity extends Activity implements OnClickListener{
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			Log.w(TAG, "postExecute in PostTask");
-			Toast.makeText(MainActivity.this, result, Toast.LENGTH_LONG).show();
+			Toast.makeText(StatusFragment.this.getActivity(), result, Toast.LENGTH_LONG).show();
 		}
 
 		@Override
@@ -144,13 +140,13 @@ public class MainActivity extends Activity implements OnClickListener{
 			// TODO Auto-generated method stub
 			switch(state){
 			case TelephonyManager.CALL_STATE_IDLE:
-				Toast.makeText(getApplicationContext(), "电话中断", Toast.LENGTH_LONG).show();
+				Toast.makeText(StatusFragment.this.getActivity(), "电话中断", Toast.LENGTH_LONG).show();
 				break;
 			case TelephonyManager.CALL_STATE_OFFHOOK:
-				Toast.makeText(getApplicationContext(), "电话挂起", Toast.LENGTH_LONG).show();
+				Toast.makeText(StatusFragment.this.getActivity(), "电话挂起", Toast.LENGTH_LONG).show();
 				break;
 			case TelephonyManager.CALL_STATE_RINGING:
-				Toast.makeText(getApplicationContext(), "来电号码：" + incomingNumber, Toast.LENGTH_LONG).show();
+				Toast.makeText(StatusFragment.this.getActivity(), "来电号码：" + incomingNumber, Toast.LENGTH_LONG).show();
 				break;
 			default:
 				break;
@@ -161,12 +157,11 @@ public class MainActivity extends Activity implements OnClickListener{
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.main, menu);
+	}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -178,23 +173,6 @@ public class MainActivity extends Activity implements OnClickListener{
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-        	Log.d(TAG, container.toString());
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
     }
 
 

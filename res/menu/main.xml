@@ -8,5 +8,20 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         android:showAsAction="never"/>
+    <item
+        android:id="@+id/action_tweet"
+        android:icon="@android:drawable/ic_menu_add"
+        android:showAsAction="always|withText"
+        android:title="@string/button_tweet"/>
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:showAsAction="always"
+        android:title="@string/refresh"/>
+    <item
+        android:id="@+id/action_purge"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/purge">
+</item>
 
 </menu>

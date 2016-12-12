@@ -1,12 +1,16 @@
 package com.example.helloandroid;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,14 +57,14 @@ public class StatusFragment extends android.app.Fragment implements OnClickListe
         editStatus.addTextChangedListener(new TextWatcher() {
 			
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-					int arg3) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 				// TODO Auto-generated method stub
 				
 			}
@@ -73,8 +77,8 @@ public class StatusFragment extends android.app.Fragment implements OnClickListe
 				textCount.setTextColor(Color.GREEN);
 				if (count < 10)
 					textCount.setTextColor(Color.RED);
-				else
-					textCount.setTextColor(defaultTextColor);
+//				else
+//					textCount.setTextColor(defaultTextColor);
 			}
 		});
         Log.w(TAG, "onCreateView end");
@@ -97,7 +101,14 @@ public class StatusFragment extends android.app.Fragment implements OnClickListe
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			Log.w(TAG, "doInBackground");
-			YambaClient yambaCloud = new YambaClient("student", "password");
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			String username = prefs.getString("username", "");
+			String password = prefs.getString("password", "");
+			if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)){
+				getActivity().startActivity(new Intent(getActivity(), SettingsActivity.class));
+				return "Please update your username and password";
+			}
+			YambaClient yambaCloud = new YambaClient(username, password);
 			try {
 				yambaCloud.postStatus(params[0]);
 				return "Successfully posted";
@@ -113,7 +124,7 @@ public class StatusFragment extends android.app.Fragment implements OnClickListe
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			Log.w(TAG, "postExecute in PostTask");
-			Toast.makeText(StatusFragment.this.getActivity(), result, Toast.LENGTH_LONG).show();
+			Toast.makeText(StatusFragment.this.getActivity().getApplicationContext(), result, Toast.LENGTH_LONG).show();
 		}
 
 		@Override

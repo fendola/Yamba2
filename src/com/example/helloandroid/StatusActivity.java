@@ -18,7 +18,7 @@ public class StatusActivity extends Activity {
         Log.w(TAG, "onCreate begin");
         if (savedInstanceState == null) {
         	Log.w(TAG, "first add fragment");
-            //load layout by dynamic fragment, activity_status.xml will useless
+            //load layout by dynamic fragment, activity_status.xml will be useless
         	getFragmentManager().beginTransaction()
                     .add(android.R.id.content, new StatusFragment())
                     .commit();

@@ -7,7 +7,7 @@ import android.util.Log;
 public class StatusActivity extends Activity {
 
 	final static String TAG = "clong.StatusActivity"; 
-	final static String updateAction = StatusActivity.class.getSimpleName() + ".upatestatus";
+	final static String updateAction = StatusActivity.class.getSimpleName() + ".action.upatestatus";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -20,7 +20,7 @@
             android:name=".StatusActivity"
             android:label="@string/status_update" >
             <intent-filter>
-                <action android:name="StatusActivity.upatestatus" />
+                <action android:name="StatusActivity.action.upatestatus" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -37,6 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".RefreshService" />
+
     </application>
 
 </manifest>

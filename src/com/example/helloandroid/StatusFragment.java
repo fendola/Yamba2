@@ -108,7 +108,7 @@ public class StatusFragment extends android.app.Fragment implements OnClickListe
 				getActivity().startActivity(new Intent(getActivity(), SettingsActivity.class));
 				return "Please update your username and password";
 			}
-			YambaClient yambaCloud = new YambaClient(username, password);
+			YambaClient yambaCloud = new YambaClient(username, password, "http://yamba.newcircle.com/api");
 			try {
 				yambaCloud.postStatus(params[0]);
 				return "Successfully posted";

@@ -30,10 +30,12 @@ public class MainActivity extends Activity {
 		switch (id) {
 		case R.id.action_settings:
 			startActivity(new Intent(this, SettingsActivity.class));
-			return true;
+			break;
 		case R.id.action_tweet:
 			startActivity(new Intent(StatusActivity.updateAction));
-			return true;
+			break;
+		case R.id.action_refresh:
+			startService(new Intent(this, RefreshService.class));
 		default:
 			break;
 		}

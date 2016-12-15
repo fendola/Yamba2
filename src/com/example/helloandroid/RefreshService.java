@@ -6,8 +6,10 @@ import com.marakana.android.yamba.clientlib.YambaClient.Status;
 import com.marakana.android.yamba.clientlib.YambaClientException;
 
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -64,12 +66,24 @@ public class RefreshService extends IntentService {
 			Toast.makeText(this, "Please update your username and password", Toast.LENGTH_LONG).show();
 			return;
 		}
+		
+		DbHelper dbHelper = new DbHelper(this);
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		ContentValues cValue = new ContentValues();
+		
 		YambaClient yambaCloud = new YambaClient(username, password, "http://yamba.newcircle.com/api");
 		try {
 			List<Status> timeline = yambaCloud.getTimeline(20);
 			for (Status status : timeline){
-				Log.d(TAG, String.format("%s: %s", status.getUser(), status.getMessage()));
-				Toast.makeText(this, String.format("%s: %s", status.getUser(), status.getMessage()), Toast.LENGTH_LONG).show();
+				Log.d(TAG, String.format("%s: %s/%s", status.getUser(), status.getMessage(), status.getCreatedAt().toString()));
+				
+				cValue.clear();
+				cValue.put(StatusConstants.Column.ID, status.getId());
+				cValue.put(StatusConstants.Column.USER, status.getUser());
+				cValue.put(StatusConstants.Column.MESSAGE, status.getMessage());
+				cValue.put(StatusConstants.Column.CREATED_AT, status.getCreatedAt().toString());
+				
+				db.insertWithOnConflict(StatusConstants.TABLE, null, cValue, SQLiteDatabase.CONFLICT_IGNORE);
 			}
 		} catch (YambaClientException e) {
 			// TODO Auto-generated catch block

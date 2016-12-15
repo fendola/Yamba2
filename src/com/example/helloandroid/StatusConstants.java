@@ -1,5 +1,6 @@
 package com.example.helloandroid;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class StatusConstants {
@@ -16,4 +17,15 @@ public class StatusConstants {
 		public static final String MESSAGE = "message";
 		public static final String CREATED_AT = "created_at";
 	}
+	
+	// Provider specific constants
+	// content://com.example.helloandroid.StatusProvider/status
+	public static final String AUTHORITY = "com.example.helloandroid.StatusProvider";
+	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE);
+	public static final int STATUS_ITEM = 1;
+	public static final int STATUS_DIR = 2;
+	public static final String STATUS_TYPE_ITEM =
+	"vnd.android.cursor.item/vnd.com.example.helloandroid.provider.status";
+	public static final String STATUS_TYPE_DIR =
+	"vnd.android.cursor.dir/vnd.com.marakana.android.yamba.provider.status";
 }

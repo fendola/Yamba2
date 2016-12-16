@@ -1,21 +1,20 @@
 package com.example.helloandroid;
 import java.util.List;
 
-import com.marakana.android.yamba.clientlib.YambaClient;
-import com.marakana.android.yamba.clientlib.YambaClient.Status;
-import com.marakana.android.yamba.clientlib.YambaClientException;
-
 import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClient.Status;
+import com.marakana.android.yamba.clientlib.YambaClientException;
 
 
 public class RefreshService extends IntentService {

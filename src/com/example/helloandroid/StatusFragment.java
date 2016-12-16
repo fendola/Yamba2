@@ -35,7 +35,7 @@ public class StatusFragment extends android.app.Fragment implements OnClickListe
 	private EditText editStatus;
 	private Button buttonTweet;
 	private TextView textCount;
-	private int defaultTextColor;
+//	private int defaultTextColor;
 	
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +53,7 @@ public class StatusFragment extends android.app.Fragment implements OnClickListe
         
         
         buttonTweet.setOnClickListener(this);
-        defaultTextColor = textCount.getTextColors().getDefaultColor();
+//        defaultTextColor = textCount.getTextColors().getDefaultColor();
         editStatus.addTextChangedListener(new TextWatcher() {
 			
 			@Override

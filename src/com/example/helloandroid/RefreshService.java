@@ -73,6 +73,7 @@ public class RefreshService extends IntentService {
 		
 		YambaClient yambaCloud = new YambaClient(username, password, "http://yamba.newcircle.com/api");
 		try {
+			int count = 0;
 			List<Status> timeline = yambaCloud.getTimeline(20);
 			for (Status status : timeline){
 				
@@ -85,8 +86,14 @@ public class RefreshService extends IntentService {
 //				db.insertWithOnConflict(StatusConstants.TABLE, null, cValue, SQLiteDatabase.CONFLICT_IGNORE);
 				Uri uri = getContentResolver().insert(StatusConstants.CONTENT_URI, cValue);
 				if (uri != null){
+					count++;
 					Log.d(TAG, String.format("%s: %s/%s", status.getUser(), status.getMessage(), status.getCreatedAt().toString()));
 				}
+			}
+			
+			if (count > 0){
+				sendBroadcast(new Intent("com.example.helloandroid.action.NEW_TWEETS").putExtra("count", count));
+				Log.d(TAG, "broadcast new_TWEETS");
 			}
 		} catch (YambaClientException e) {
 			// TODO Auto-generated catch block

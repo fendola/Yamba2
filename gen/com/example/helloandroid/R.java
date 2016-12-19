@@ -25,15 +25,16 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_purge=0x7f09000c;
-        public static final int action_refresh=0x7f09000b;
-        public static final int action_settings=0x7f090009;
-        public static final int action_tweet=0x7f09000a;
+        public static final int action_purge=0x7f09000d;
+        public static final int action_refresh=0x7f09000c;
+        public static final int action_settings=0x7f09000a;
+        public static final int action_tweet=0x7f09000b;
         public static final int buttonTweet=0x7f090005;
         public static final int editStatus=0x7f090004;
         public static final int fragment_details=0x7f090001;
         public static final int fragment_status=0x7f090002;
         public static final int fragment_timeline=0x7f090000;
+        public static final int list_item_content=0x7f090009;
         public static final int list_item_text_created_at=0x7f090007;
         public static final int list_item_text_message=0x7f090008;
         public static final int list_item_text_user=0x7f090006;
@@ -44,6 +45,7 @@ public final class R {
         public static final int activity_status=0x7f030001;
         public static final int fragment_status=0x7f030002;
         public static final int list_item=0x7f030003;
+        public static final int widget=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -95,5 +97,6 @@ public final class R {
     }
     public static final class xml {
         public static final int settings=0x7f040000;
+        public static final int yamba_widget=0x7f040001;
     }
 }
